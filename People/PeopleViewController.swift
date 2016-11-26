@@ -10,60 +10,51 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class PeopleViewController: UIViewController {
+class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: Constants and variables
+    let userCellIdentifier = "userCell"
     var userList: [User] = []
     
+    // MARK: -
     // MARK: IBOutlets
+    @IBOutlet weak var userTableView: UITableView!
     
+    // MARK: -
     // MARK: IBActions
     
+    // MARK: -
     // MARK: UIViewController overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        loadUsersTest()
         loadUsers()
     }
 
+    // MARK: -
     // MARK: Custom functions
     func loadUsers() {
         RestApiManager.sharedInstance.getAllUsers { (results) in
-            for (key,userJson):(String, JSON) in results {
-                print("----------------------------------")
-                print(key)
-                print(userJson)
-                print("----------------------------------")
-                
-                let companySubJson = userJson["company"]
-                let addressSubJson = userJson["address"]
-                let geoSubJson = addressSubJson["geo"]
-                
-                let geoLocation = GeoLocation(latitude:  geoSubJson["lat"].stringValue,
-                                              longitude: geoSubJson["lng"].stringValue)
-                
-                let address = Address(street:       addressSubJson["street"].stringValue,
-                                      suite:        addressSubJson["suite"].stringValue,
-                                      city:         addressSubJson["city"].stringValue,
-                                      zipCode:      addressSubJson["zipcode"].stringValue,
-                                      geoLocation:  geoLocation)
-                
-                let company = Company(name:         companySubJson["name"].stringValue,
-                                      catchPhrase:  companySubJson["catchPhrase"].stringValue,
-                                      bs:           companySubJson["bs"].stringValue)
-                
-                let user = User(id:        userJson["id"].intValue,
-                                 name:      userJson["name"].stringValue,
-                                 username:  userJson["nae"].stringValue,
-                                 email:     userJson["email"].stringValue,
-                                 address:   address,
-                                 phone:     userJson["phone"].stringValue,
-                                 website:   userJson["website"].stringValue,
-                                 company:   company)
-                
-                self.userList.append(user)
-            }
-            
+            self.userList = results
+            self.userTableView.reloadData()
         }
     }
+    
+    // MARK: -
+    // MARK: UITableViewDataSource
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return userList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let userCell = tableView.dequeueReusableCell(withIdentifier: userCellIdentifier, for: indexPath)
+        userCell.textLabel?.text = userList[indexPath.row].name
+        
+        return userCell
+    }
+    
+    
 }
