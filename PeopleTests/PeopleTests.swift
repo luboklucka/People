@@ -10,10 +10,16 @@ import XCTest
 @testable import People
 
 class PeopleTests: XCTestCase {
+    var viewController: PeopleViewController!
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let tabBarController = storyboard.instantiateInitialViewController() as! UITabBarController
+        let navigationController = tabBarController.viewControllers?[0] as! UINavigationController
+        viewController = navigationController.topViewController as! PeopleViewController
     }
     
     override func tearDown() {
@@ -21,16 +27,17 @@ class PeopleTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testStringSorting() {
+        let address = Address(street: "", suite: "", city: "", zipCode: "", geoLocation: GeoLocation(latitude: "", longitude: ""))
+        let company = Company(name: "", catchPhrase: "", bs: "")
+        let firstUser = User(id: 1, name: "Yvonne", username: "", email: "", address: address, phone: "", website: "", company: company)
+        let secondUser = User(id: 2, name: "George", username: "Clooney", email: "", address: address, phone: "", website: "", company: company)
+        
+        let arrayToSort = [firstUser, secondUser]
+        let finalArray = [secondUser, firstUser]
+        
+        let sortedArray = viewController.sortUserListAlphabetically(arrayToSort)
+        XCTAssert(sortedArray[0].name == finalArray[0].name)
+        XCTAssert(sortedArray[1].name == finalArray[1].name)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
