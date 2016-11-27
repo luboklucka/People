@@ -12,6 +12,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Constants and variables
     let peopleViewControllerRefreshButtonKey = "PeopleViewControllerRefreshButton"
     let peopleViewControllerTitleKey = "PeopleViewControllerTitle"
+    let peopleViewControllerNoDataKey = "PeopleViewControllerNoData"
     let errorViewAnimationDuration = 0.5
     let userCellIdentifier = "userCell"
     let userDetailSegueIdentifier = "userDetailSegue"
@@ -50,10 +51,15 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         RestApiManager.sharedInstance.getAllUsers { (results, error) in
             if error == nil {
-                self.userList = self.sortUserListAlphabetically(results)
-                self.refreshControl.endRefreshing()
-                self.userTableView.reloadData()
-                self.hideErrorView()
+                if results.isEmpty {
+                    self.errorLabel.text = String.localizedStringWithKey(self.peopleViewControllerNoDataKey)
+                    self.showErrorView()
+                } else {
+                    self.userList = self.sortUserListAlphabetically(results)
+                    self.refreshControl.endRefreshing()
+                    self.userTableView.reloadData()
+                    self.hideErrorView()
+                }
             } else {
                 self.errorLabel.text = error?.localizedDescription
                 self.showErrorView()

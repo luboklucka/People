@@ -10,6 +10,7 @@
     // MARK - PeopleViewController
     PeopleViewControllerTitle = "People";
     PeopleViewControllerRefreshButton = "Refresh";
+    PeopleViewControllerNoData = "A problem has occured when downloading data. Please, try again later.";
     
     // MARK - UserDetailViewController
     

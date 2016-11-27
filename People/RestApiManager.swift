@@ -36,13 +36,15 @@ class RestApiManager {
                 
                 switch response.result {
                 case .success:
-                    let results = JSON(response.result.value!)
-                    for (_,userJson):(String, JSON) in results {
-                        print(userJson)
-                        print("----------------------------------")
+                    if response.result.value != nil {
+                        let results = JSON(response.result.value!)
+                        for (_,userJson):(String, JSON) in results {
+                            print(userJson)
+                            print("----------------------------------")
                         
-                        let user = self.getParsedUserResults(userJson)
-                        userList.append(user)
+                            let user = self.getParsedUserResults(userJson)
+                            userList.append(user)
+                        }
                     }
                     onCompletion(userList, nil)
                 case .failure(let error):

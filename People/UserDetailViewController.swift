@@ -43,7 +43,7 @@ class UserDetailViewController: UIViewController {
     }
     
     func initializeMapView() {
-        if Double(user!.address.geoLocation.latitude) != nil && Double(user!.address.geoLocation.longitude) != nil {
+        if user != nil && Double(user!.address.geoLocation.latitude) != nil && Double(user!.address.geoLocation.longitude) != nil {
             let initialLocation = CLLocation(latitude: Double(user!.address.geoLocation.latitude)!, longitude: Double(user!.address.geoLocation.longitude)!)
             
             let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,
