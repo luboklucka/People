@@ -13,9 +13,8 @@ class UserDetailViewController: UIViewController {
     var user: User?
 
     // MARK: - IBOutlets
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var email: UILabel!
     @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var email: UILabel!
     @IBOutlet weak var phone: UILabel!
     
     // MARK: - IBActions
@@ -24,10 +23,9 @@ class UserDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        name.text = user?.name
-        email.text = user?.email
+        self.navigationItem.title = user?.name
         username.text = user?.username
+        email.text = user?.email
         phone.text = user?.phone
     }
 

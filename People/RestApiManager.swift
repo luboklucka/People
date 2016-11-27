@@ -10,7 +10,11 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-typealias ServiceResponse = (AnyObject, NSError?) -> Void
+enum UsersError: Error {
+    case noUsers
+    case internetConnection
+}
+
 
 class RestApiManager {
     static let sharedInstance = RestApiManager()
@@ -23,14 +27,15 @@ class RestApiManager {
     let todosURL    = "todos/"
     let usersURL    = "users/"
     
-    func getAllUsers(onCompletion: @escaping ([User]) -> Void) {
+    func getAllUsers(onCompletion: @escaping ([User], Error?) -> Void) {
         let route = baseURL + usersURL
         
         Alamofire.request(route)
             .responseJSON { (response) in
+                var userList = [User]()
+                
                 switch response.result {
                 case .success:
-                    var userList = [User]()
                     let results = JSON(response.result.value!)
                     for (_,userJson):(String, JSON) in results {
                         print(userJson)
@@ -39,9 +44,9 @@ class RestApiManager {
                         let user = self.getParsedUserResults(userJson)
                         userList.append(user)
                     }
-                    onCompletion(userList)
+                    onCompletion(userList, nil)
                 case .failure(let error):
-                    print(error)
+                    onCompletion(userList, error as Error?)
                 }
         }
     }

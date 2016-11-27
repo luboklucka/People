@@ -19,32 +19,46 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - IBOutlets
     @IBOutlet weak var userTableView: UITableView!
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var refreshButton: UIButton!
     
     // MARK: - IBActions
+    @IBAction func refreshButtonPressed(_ sender: Any) {
+        loadUsers()
+    }
     
     // MARK: - UIViewController overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "People"
+        errorView.isHidden = true
         addRefreshControlToTableView()
         loadUsers()
     }
 
     // MARK: - Custom functions
     func loadUsers() {
-        RestApiManager.sharedInstance.getAllUsers { (results) in
-            self.userList = self.sortUserListAlphabetically(results)
-            self.refreshControl.endRefreshing()
-            self.userTableView.reloadData()
+        RestApiManager.sharedInstance.getAllUsers { (results, error) in
+            if error == nil {
+                self.userList = self.sortUserListAlphabetically(results)
+                self.refreshControl.endRefreshing()
+                self.userTableView.reloadData()
+                self.errorView.isHidden = true
+            } else {
+                self.errorLabel.text = error?.localizedDescription
+                self.errorView.isHidden = false
+            }
         }
     }
     
     func sortUserListAlphabetically(_ userList: [User]) -> [User] {
          return userList.sorted(by: { (user1, user2) -> Bool in
             // Remove title "Mrs." from sorting comparison
-            let user1substring = (user1 as User).name.replacingOccurrences(of: "Mrs. ", with: "")
+            let user1Substring = (user1 as User).name.replacingOccurrences(of: "Mrs. ", with: "")
             
-            if user1substring < (user2 as User).name {
+            if user1Substring < (user2 as User).name {
                 return true
             }
             return false

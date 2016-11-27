@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  WallViewController.swift
 //  People
 //
 //  Created by Lubomir Klucka on 25/11/2016.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class WallViewController: UIViewController {
     // MARK: - Constants and variables
     
     // MARK: - IBOutlets
@@ -18,7 +18,8 @@ class SecondViewController: UIViewController {
     // MARK: - UIViewController overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.navigationItem.title = "Wall"
     }
     
     // MARK: - Custom functions

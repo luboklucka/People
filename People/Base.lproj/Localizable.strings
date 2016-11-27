@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  People
+
+  Created by Lubomir Klucka on 27/11/2016.
+  Copyright © 2016 luboklucka. All rights reserved.
+*/
+
+{
+    // MARK - PeopleViewController
+    PeopleViewControllerTitle = "People";
+    PeopleViewControllerRefreshButton = "Refresh";
+    
+    // MARK - UserDetailViewController
+    
+    // MARK - WallViewController
+    WallViewControllerTitle = "Wall";
+    
+    
+}
