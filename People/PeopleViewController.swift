@@ -33,11 +33,10 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = String.localizedStringWithKey(peopleViewControllerTitleKey)
         initializeRefreshButton()
-        errorView.alpha = 0
-        addRefreshControlToTableView()
-        userTableView.tableFooterView = UIView()
+        initializeNavigationBar()
+        initializeTableView()
+        initializeErrorViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +98,24 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func initializeRefreshButton() {
         refreshButton.titleLabel?.text = String.localizedStringWithKey(peopleViewControllerRefreshButtonKey)
+        refreshButton.backgroundColor = UIColor.peopleYellowColor()
+        refreshButton.titleLabel?.font = UIFont.avenirNext15Medium()
+        refreshButton.layer.cornerRadius = 10
+    }
+    
+    func initializeNavigationBar() {
+        self.navigationItem.title = String.localizedStringWithKey(peopleViewControllerTitleKey)
+        self.navigationController?.navigationBar.backgroundColor = UIColor.peopleYellowColor()
+    }
+    
+    func initializeTableView() {
+        addRefreshControlToTableView()
+        userTableView.tableFooterView = UIView()
+    }
+    
+    func initializeErrorViews() {
+        errorLabel.font = UIFont.avenirNext15Medium()
+        errorView.alpha = 0
     }
     
     // MARK: - UITableViewDataSource
