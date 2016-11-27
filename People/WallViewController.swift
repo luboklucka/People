@@ -19,7 +19,7 @@ class WallViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Wall"
+        self.navigationItem.title = String.localizedStringWithKey("WallViewControllerTitle")
     }
     
     // MARK: - Custom functions

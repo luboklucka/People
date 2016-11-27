@@ -19,7 +19,17 @@ extension UIFont {
 }
 
 extension UIColor {
-    // Colors go here ...
+    static func colorWithRed(_ red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1.0)
+    }
+    
+    static func peopleYellowColor() -> UIColor {
+        return UIColor.colorWithRed(254, green: 226, blue: 74)
+    }
+    
+    static func peopleOrangeColor() -> UIColor {
+        return UIColor.colorWithRed(254, green: 195, blue: 59)
+    }
 }
 
 extension String {

@@ -24,11 +24,17 @@ class UserDetailViewController: UIViewController {
         super.viewDidLoad()
 
         self.navigationItem.title = user?.name
+        initializeLabels()
+    }
+
+    // MARK: - Custom functions
+    func initializeLabels() {
+        username.font = UIFont.avenirNext15Medium()
+        email.font = UIFont.avenirNext15Medium()
+        phone.font = UIFont.avenirNext15Medium()
+        
         username.text = user?.username
         email.text = user?.email
         phone.text = user?.phone
     }
-
-    // MARK: - Custom functions
-    
 }

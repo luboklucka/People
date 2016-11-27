@@ -7,11 +7,12 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
 
 class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: - Constants and variables
+    let peopleViewControllerRefreshButtonKey = "PeopleViewControllerRefreshButton"
+    let peopleViewControllerTitleKey = "PeopleViewControllerTitle"
+    let errorViewAnimationDuration = 0.5
     let userCellIdentifier = "userCell"
     let userDetailSegueIdentifier = "userDetailSegue"
     var userList: [User] = []
@@ -32,24 +33,33 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "People"
-        errorView.isHidden = true
+        self.navigationItem.title = String.localizedStringWithKey(peopleViewControllerTitleKey)
+        initializeRefreshButton()
+        errorView.alpha = 0
         addRefreshControlToTableView()
+        userTableView.tableFooterView = UIView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         loadUsers()
     }
 
     // MARK: - Custom functions
     func loadUsers() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         RestApiManager.sharedInstance.getAllUsers { (results, error) in
             if error == nil {
                 self.userList = self.sortUserListAlphabetically(results)
                 self.refreshControl.endRefreshing()
                 self.userTableView.reloadData()
-                self.errorView.isHidden = true
+                self.hideErrorView()
             } else {
                 self.errorLabel.text = error?.localizedDescription
-                self.errorView.isHidden = false
+                self.showErrorView()
             }
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
     }
     
@@ -67,13 +77,28 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func addRefreshControlToTableView() {
         refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Loading data")
         refreshControl.addTarget(self, action: #selector(PeopleViewController.reloadTableViewData), for: UIControlEvents.valueChanged)
         userTableView.addSubview(refreshControl)
     }
     
     func reloadTableViewData() {
         loadUsers()
+    }
+    
+    func hideErrorView() {
+        UIView.animate(withDuration: errorViewAnimationDuration) {
+            self.errorView.alpha = 0.0
+        }
+    }
+    
+    func showErrorView() {
+        UIView.animate(withDuration: errorViewAnimationDuration) {
+            self.errorView.alpha = 1.0
+        }
+    }
+    
+    func initializeRefreshButton() {
+        refreshButton.titleLabel?.text = String.localizedStringWithKey(peopleViewControllerRefreshButtonKey)
     }
     
     // MARK: - UITableViewDataSource
