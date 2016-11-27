@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23158DED1DEB2F0F00C8CE25 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23158DEC1DEB2F0F00C8CE25 /* UserDetailViewController.swift */; };
 		23C0AC011DE85CB000F37AF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C0AC001DE85CB000F37AF3 /* AppDelegate.swift */; };
 		23C0AC031DE85CB000F37AF3 /* PeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C0AC021DE85CB000F37AF3 /* PeopleViewController.swift */; };
 		23C0AC051DE85CB000F37AF3 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C0AC041DE85CB000F37AF3 /* SecondViewController.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		00FD34ABA24484D34C7165E7 /* Pods_PeopleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeopleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		23158DEC1DEB2F0F00C8CE25 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		23C0ABFD1DE85CAF00F37AF3 /* People.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = People.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23C0AC001DE85CB000F37AF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23C0AC021DE85CB000F37AF3 /* PeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				23C0AC021DE85CB000F37AF3 /* PeopleViewController.swift */,
 				23C0AC041DE85CB000F37AF3 /* SecondViewController.swift */,
+				23158DEC1DEB2F0F00C8CE25 /* UserDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			files = (
 				23C0AC271DE85F0F00F37AF3 /* User.swift in Sources */,
 				23C0AC051DE85CB000F37AF3 /* SecondViewController.swift in Sources */,
+				23158DED1DEB2F0F00C8CE25 /* UserDetailViewController.swift in Sources */,
 				23C0AC301DE87DE600F37AF3 /* RestApiManager.swift in Sources */,
 				23C0AC011DE85CB000F37AF3 /* AppDelegate.swift in Sources */,
 				23C0AC031DE85CB000F37AF3 /* PeopleViewController.swift in Sources */,

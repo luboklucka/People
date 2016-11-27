@@ -11,36 +11,58 @@ import Alamofire
 import SwiftyJSON
 
 class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    // MARK: Constants and variables
+    // MARK: - Constants and variables
     let userCellIdentifier = "userCell"
+    let userDetailSegueIdentifier = "userDetailSegue"
     var userList: [User] = []
+    var refreshControl: UIRefreshControl!
     
-    // MARK: -
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     @IBOutlet weak var userTableView: UITableView!
     
-    // MARK: -
-    // MARK: IBActions
+    // MARK: - IBActions
     
-    // MARK: -
-    // MARK: UIViewController overrides
+    // MARK: - UIViewController overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addRefreshControlToTableView()
         loadUsers()
     }
 
-    // MARK: -
-    // MARK: Custom functions
+    // MARK: - Custom functions
     func loadUsers() {
         RestApiManager.sharedInstance.getAllUsers { (results) in
-            self.userList = results
+            self.userList = self.sortUserListAlphabetically(results)
+            self.refreshControl.endRefreshing()
             self.userTableView.reloadData()
         }
     }
     
-    // MARK: -
-    // MARK: UITableViewDataSource
+    func sortUserListAlphabetically(_ userList: [User]) -> [User] {
+         return userList.sorted(by: { (user1, user2) -> Bool in
+            // Remove title "Mrs." from sorting comparison
+            let user1substring = (user1 as User).name.replacingOccurrences(of: "Mrs. ", with: "")
+            
+            if user1substring < (user2 as User).name {
+                return true
+            }
+            return false
+        })
+    }
+    
+    func addRefreshControlToTableView() {
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Loading data")
+        refreshControl.addTarget(self, action: #selector(PeopleViewController.reloadTableViewData), for: UIControlEvents.valueChanged)
+        userTableView.addSubview(refreshControl)
+    }
+    
+    func reloadTableViewData() {
+        loadUsers()
+    }
+    
+    // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -56,5 +78,18 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return userCell
     }
     
+    // MARK: - Navigation
     
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == userDetailSegueIdentifier,
+            let destination = segue.destination as? UserDetailViewController,
+            let userIndex = userTableView.indexPathForSelectedRow?.row
+        {
+            destination.user = userList[userIndex]
+        }
+    }
 }

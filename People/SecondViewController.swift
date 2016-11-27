@@ -9,18 +9,18 @@
 import UIKit
 
 class SecondViewController: UIViewController {
-    // MARK: Constants and variables
+    // MARK: - Constants and variables
     
-    // MARK: IBOutlets
+    // MARK: - IBOutlets
     
-    // MARK: IBActions
+    // MARK: - IBActions
     
-    // MARK: UIViewController overrides
+    // MARK: - UIViewController overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    // MARK: Custom functions
+    // MARK: - Custom functions
 }
 

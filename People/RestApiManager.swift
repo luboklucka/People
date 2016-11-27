@@ -28,46 +28,49 @@ class RestApiManager {
         
         Alamofire.request(route)
             .responseJSON { (response) in
-                if response.result.value != nil {
+                switch response.result {
+                case .success:
                     var userList = [User]()
-                    
                     let results = JSON(response.result.value!)
                     for (_,userJson):(String, JSON) in results {
                         print(userJson)
                         print("----------------------------------")
                         
-                        let companySubJson = userJson["company"]
-                        let addressSubJson = userJson["address"]
-                        let geoSubJson = addressSubJson["geo"]
-                        
-                        let geoLocation = GeoLocation(latitude:  geoSubJson["lat"].stringValue,
-                                                      longitude: geoSubJson["lng"].stringValue)
-                        
-                        let address = Address(street:       addressSubJson["street"].stringValue,
-                                              suite:        addressSubJson["suite"].stringValue,
-                                              city:         addressSubJson["city"].stringValue,
-                                              zipCode:      addressSubJson["zipcode"].stringValue,
-                                              geoLocation:  geoLocation)
-                        
-                        let company = Company(name:         companySubJson["name"].stringValue,
-                                              catchPhrase:  companySubJson["catchPhrase"].stringValue,
-                                              bs:           companySubJson["bs"].stringValue)
-                        
-                        let user = User(id:        userJson["id"].intValue,
-                                        name:      userJson["name"].stringValue,
-                                        username:  userJson["username"].stringValue,
-                                        email:     userJson["email"].stringValue,
-                                        address:   address,
-                                        phone:     userJson["phone"].stringValue,
-                                        website:   userJson["website"].stringValue,
-                                        company:   company)
-                        
+                        let user = self.getParsedUserResults(userJson)
                         userList.append(user)
                     }
-                    
                     onCompletion(userList)
+                case .failure(let error):
+                    print(error)
                 }
         }
     }
     
+    private func getParsedUserResults(_ userJson: JSON) -> User {
+        let companySubJson = userJson["company"]
+        let addressSubJson = userJson["address"]
+        let geoSubJson = addressSubJson["geo"]
+        
+        let geoLocation = GeoLocation(latitude:  geoSubJson["lat"].stringValue,
+                                      longitude: geoSubJson["lng"].stringValue)
+        
+        let address = Address(street:       addressSubJson["street"].stringValue,
+                              suite:        addressSubJson["suite"].stringValue,
+                              city:         addressSubJson["city"].stringValue,
+                              zipCode:      addressSubJson["zipcode"].stringValue,
+                              geoLocation:  geoLocation)
+        
+        let company = Company(name:         companySubJson["name"].stringValue,
+                              catchPhrase:  companySubJson["catchPhrase"].stringValue,
+                              bs:           companySubJson["bs"].stringValue)
+        
+        return User(id:        userJson["id"].intValue,
+                    name:      userJson["name"].stringValue,
+                    username:  userJson["username"].stringValue,
+                    email:     userJson["email"].stringValue,
+                    address:   address,
+                    phone:     userJson["phone"].stringValue,
+                    website:   userJson["website"].stringValue,
+                    company:   company)
+    }
 }
