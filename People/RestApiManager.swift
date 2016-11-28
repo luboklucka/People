@@ -10,12 +10,6 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-enum UsersError: Error {
-    case noUsers
-    case internetConnection
-}
-
-
 class RestApiManager {
     static let sharedInstance = RestApiManager()
     
