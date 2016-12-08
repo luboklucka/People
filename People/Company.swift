@@ -9,7 +9,7 @@
 import Foundation
 
 struct Company {
-    var name: String
-    var catchPhrase: String
-    var bs: String
+    let name: String
+    let catchPhrase: String
+    let bs: String
 }

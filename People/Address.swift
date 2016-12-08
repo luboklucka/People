@@ -9,9 +9,9 @@
 import Foundation
 
 struct Address {
-    var street: String
-    var suite: String
-    var city: String
-    var zipCode: String
-    var geoLocation: GeoLocation
+    let street: String
+    let suite: String
+    let city: String
+    let zipCode: String
+    let geoLocation: GeoLocation
 }

@@ -9,6 +9,6 @@
 import Foundation
 
 struct GeoLocation {
-    var latitude: String
-    var longitude: String
+    let latitude: String
+    let longitude: String
 }

@@ -9,12 +9,12 @@
 import Foundation
 
 struct User {
-    var id: Int
-    var name: String
-    var username: String
-    var email: String
-    var address: Address
-    var phone: String
-    var website: String
-    var company: Company
+    let id: Int
+    let name: String
+    let username: String
+    let email: String
+    let address: Address
+    let phone: String
+    let website: String
+    let company: Company
 }
