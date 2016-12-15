@@ -12,10 +12,15 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var store: RestApiManager?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        store = RestApiManager()
+        let viewController = PeopleViewController(delegate: store!)
+        let nav = UINavigationController(rootViewController: viewController)
+        self.window?.rootViewController = nav
         
         UITabBar.appearance().tintColor = UIColor.peopleOrangeColor()
         return true

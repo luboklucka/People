@@ -18,7 +18,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let userDetailSegueIdentifier = "userDetailSegue"
     var userList: [User] = []
     var refreshControl: UIRefreshControl!
-    let restApiDelegate: RestApiProtocol!
+    var restApiDelegate: RestApiProtocol!
     
     // MARK: - IBOutlets
     @IBOutlet weak var userTableView: UITableView!
@@ -32,14 +32,19 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // MARK: - Initializer
-    init(delegate: RestApiProtocol) {
+    convenience init(delegate: RestApiProtocol) {
+        self.init()
         restApiDelegate = delegate
-        super.init(nibName: nil, bundle: nil)
+        restApiDelegate.getAllUsers { (results, error) in
+            print("got all users")
+            print("oh yah")
+        }
+//        super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     // MARK: - UIViewController overrides
     override func viewDidLoad() {
