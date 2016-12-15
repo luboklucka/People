@@ -10,8 +10,16 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-class RestApiManager {
-    static let sharedInstance = RestApiManager()
+protocol RestApiProtocol {
+    func getAllUsers(onCompletion: @escaping ([User], Error?) -> Void)
+}
+
+class RestApiManager: RestApiProtocol {
+//    static let sharedInstance = RestApiManager()
+    
+//    init() {
+//        
+//    }
     
     let baseURL     = "http://jsonplaceholder.typicode.com/"
     let postsURL    = "posts/"
@@ -35,7 +43,7 @@ class RestApiManager {
                         for (_,userJson):(String, JSON) in results {
                             print(userJson)
                             print("----------------------------------")
-                        
+                            
                             let user = self.getParsedUserResults(userJson)
                             userList.append(user)
                         }

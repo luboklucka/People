@@ -18,6 +18,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let userDetailSegueIdentifier = "userDetailSegue"
     var userList: [User] = []
     var refreshControl: UIRefreshControl!
+    let restApiDelegate: RestApiProtocol!
     
     // MARK: - IBOutlets
     @IBOutlet weak var userTableView: UITableView!
@@ -28,6 +29,16 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - IBActions
     @IBAction func refreshButtonPressed(_ sender: Any) {
         loadUsers()
+    }
+    
+    // MARK: - Initializer
+    init(delegate: RestApiProtocol) {
+        restApiDelegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - UIViewController overrides
@@ -49,7 +60,8 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Custom functions
     func loadUsers() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        RestApiManager.sharedInstance.getAllUsers { (results, error) in
+        
+        restApiDelegate.getAllUsers { (results, error) in
             if error == nil {
                 if results.isEmpty {
                     self.errorLabel.text = String.localizedStringWithKey(self.peopleViewControllerNoDataKey)
@@ -66,6 +78,24 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
+        
+//        RestApiManager.sharedInstance.getAllUsers { (results, error) in
+//            if error == nil {
+//                if results.isEmpty {
+//                    self.errorLabel.text = String.localizedStringWithKey(self.peopleViewControllerNoDataKey)
+//                    self.showErrorView()
+//                } else {
+//                    self.userList = self.sortUserListAlphabetically(results)
+//                    self.refreshControl.endRefreshing()
+//                    self.userTableView.reloadData()
+//                    self.hideErrorView()
+//                }
+//            } else {
+//                self.errorLabel.text = error?.localizedDescription
+//                self.showErrorView()
+//            }
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//        }
     }
     
     func sortUserListAlphabetically(_ userList: [User]) -> [User] {
