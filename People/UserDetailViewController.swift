@@ -43,14 +43,15 @@ class UserDetailViewController: UIViewController {
     }
     
     func initializeMapView() {
-        if user != nil && Double(user!.address.geoLocation.latitude) != nil && Double(user!.address.geoLocation.longitude) != nil {
-            let initialLocation = CLLocation(latitude: Double(user!.address.geoLocation.latitude)!, longitude: Double(user!.address.geoLocation.longitude)!)
-            
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,
-                                                                      regionRadius, regionRadius)
-            map.setRegion(coordinateRegion, animated: true)
-        } else {
+        guard let user = user, let lat = Double(user.address.geoLocation.latitude), let long = Double(user.address.geoLocation.longitude) else {
             map.isHidden = true
+            return
         }
+        
+        let initialLocation = CLLocation(latitude: lat, longitude: long)
+            
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,
+                                                                      regionRadius, regionRadius)
+        map.setRegion(coordinateRegion, animated: true)
     }
 }

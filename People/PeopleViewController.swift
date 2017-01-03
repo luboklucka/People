@@ -72,11 +72,9 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
          return userList.sorted(by: { (user1, user2) -> Bool in
             // Remove title "Mrs." from sorting comparison
             let user1Substring = (user1 as User).name.replacingOccurrences(of: "Mrs. ", with: "")
-            
-            if user1Substring < (user2 as User).name {
-                return true
-            }
-            return false
+            let user2Substring = (user2 as User).name.replacingOccurrences(of: "Mrs. ", with: "")
+
+            return user1Substring < user2Substring
         })
     }
     
